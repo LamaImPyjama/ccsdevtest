@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory,jsonify
 app = Flask(__name__)
 
 
@@ -17,10 +17,27 @@ def index():
    print('Request for index page received')
    return render_template('index.html')
 
+
+@app.route('/list')
+def listsecret():
+   try:
+      keys = key_client.list_properties_of_keys()
+      keys=[]
+      for key in keys:
+         keys.append(key.name)
+         print(key.name)
+      return jsonify(keys)
+   except Exception as e:
+      return e
+
+
 @app.route('/secret')
 def secret():
-   key = key_client.get_key("secret")
-   return key.name
+   try:
+      key = key_client.get_key("secret")
+      return key.name
+   except Exception as e:
+      return e
 
 
 @app.route('/favicon.ico')
