@@ -28,6 +28,7 @@ def listsecret():
          print(key.name)
       return jsonify(keys)
    except Exception as e:
+      print(e)
       return e
 
 
@@ -37,6 +38,7 @@ def secret():
       key = key_client.get_key("secret")
       return key.value
    except Exception as e:
+      print(e)
       return e
 
 
