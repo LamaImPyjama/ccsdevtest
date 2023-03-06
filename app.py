@@ -31,7 +31,7 @@ def listsecret():
 @app.route('/secret')
 def secret():
    key = key_client.get_key("secret")
-   return key.value
+   return key.name
 
 
 @app.route('/favicon.ico')
