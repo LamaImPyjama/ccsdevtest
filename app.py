@@ -4,11 +4,11 @@ app = Flask(__name__)
 
 
 from azure.identity import DefaultAzureCredential
-from azure.keyvault.keys import KeyClient
+from azure.keyvault.secrets import SecretClient
 
 credential = DefaultAzureCredential()
 
-key_client = KeyClient(vault_url="https://ccsdevtestus.vault.azure.net/", credential=credential)
+secret_client = SecretClient(vault_url="https://ccsdevtestus.vault.azure.net/", credential=credential)
 
 
 
@@ -18,26 +18,11 @@ def index():
    return render_template('index.html')
 
 
-@app.route('/list')
-def listsecret():
-   keys = key_client.list_properties_of_keys()
-   keys=[]
-   for key in keys:
-      keys.append(key.name)
-      print(key.name)
-   return jsonify(keys)
-
-
 @app.route('/secret')
 def secret():
-   key = key_client.get_key("secret")
-   return key.name
+   secret = secret_client.get_secret("secret")
+   return secret.value
 
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/hello', methods=['POST'])
 def hello():
