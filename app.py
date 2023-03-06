@@ -3,10 +3,25 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 app = Flask(__name__)
 
 
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.keys import KeyClient
+
+credential = DefaultAzureCredential()
+
+key_client = KeyClient(vault_url="https://ccsdevtestus.vault.azure.net/", credential=credential)
+
+
+
 @app.route('/')
 def index():
    print('Request for index page received')
    return render_template('index.html')
+
+@app.route('/secret')
+def secret():
+   key = key_client.get_key("secret")
+   return key.name
+
 
 @app.route('/favicon.ico')
 def favicon():
