@@ -1,16 +1,15 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory,jsonify
-app = Flask(__name__)
+from os import getenv
 
+app = Flask(__name__)
 
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
 credential = DefaultAzureCredential()
 
-secret_client = SecretClient(vault_url="https://ccsdevtestus.vault.azure.net/", credential=credential)
-
-
+secret_client = SecretClient(vault_url=getenv('KEYVAULTURL'), credential=credential)
 
 @app.route('/')
 def index():
