@@ -20,26 +20,18 @@ def index():
 
 @app.route('/list')
 def listsecret():
-   try:
-      keys = key_client.list_properties_of_keys()
-      keys=[]
-      for key in keys:
-         keys.append(key.name)
-         print(key.name)
-      return jsonify(keys)
-   except Exception as e:
-      print(e)
-      return e
+   keys = key_client.list_properties_of_keys()
+   keys=[]
+   for key in keys:
+      keys.append(key.name)
+      print(key.name)
+   return jsonify(keys)
 
 
 @app.route('/secret')
 def secret():
-   try:
-      key = key_client.get_key("secret")
-      return key.value
-   except Exception as e:
-      print(e)
-      return e
+   key = key_client.get_key("secret")
+   return key.value
 
 
 @app.route('/favicon.ico')
