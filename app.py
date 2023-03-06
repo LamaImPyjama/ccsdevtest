@@ -35,7 +35,7 @@ def listsecret():
 def secret():
    try:
       key = key_client.get_key("secret")
-      return key.name
+      return key.value
    except Exception as e:
       return e
 
